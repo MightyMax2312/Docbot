@@ -1,0 +1,10 @@
+streamlit
+PyMuPDF
+Pillow
+pytesseract
+sentence-transformers
+faiss-cpu
+numpy
+langchain
+groq
+python-dotenv
