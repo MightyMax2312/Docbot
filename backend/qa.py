@@ -1,15 +1,22 @@
 import os
 from openai import OpenAI
-from dotenv import load_dotenv
 
-load_dotenv()
+try:
+    GROQ_API_KEY = "your-api-key-here"
 
-client = OpenAI(
-    api_key=os.getenv("GROQ_API_KEY"),
-    base_url="https://api.groq.com/openai/v1"
-)
+    if GROQ_API_KEY == "your-api-key-here" or not GROQ_API_KEY.strip():
+        raise ValueError("Groq API key is missing. Please replace 'your-api-key-here' with your actual API key.")
 
-model_name = os.getenv("GROQ_MODEL", "llama3-8b-8192")
+    client = OpenAI(
+        api_key=GROQ_API_KEY,
+        base_url="https://api.groq.com/openai/v1"
+    )
+
+except Exception as e:
+    print(f"❌ Initialization error: {e}")
+    exit(1)
+
+model_name = "llama3-8b-8192"
 
 def ask_groq(query, context=None):
     if not query:
