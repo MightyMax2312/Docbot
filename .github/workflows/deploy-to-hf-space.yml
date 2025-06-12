@@ -1,0 +1,18 @@
+name: Deploy to Hugging Face Space
+
+on:
+  push:
+    branches: [main]  # or "master" or any branch you use
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Push to Hugging Face Space
+        uses: huggingface/huggingface-cli-action@v0.1
+        with:
+          # 🧠 Change this to your Space name!
+          space: MightyMax2312/Docchat
+          token: ${{ secrets.HF_TOKEN }}
