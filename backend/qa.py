@@ -1,20 +1,22 @@
+from groq import Groq
 import os
-from openai import OpenAI
+import streamlit as st
 
+# It's recommended to set the API key via environment variables
+# For Streamlit sharing, you would set this in the secrets manager
 try:
-    GROQ_API_KEY = "your-api-key-here"
+    # This will read the secret you set in the Streamlit Community Cloud settings
+    client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+except Exception:
+    # Fallback for local development if you use a .env file
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+        client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+    except Exception as e:
+        st.error(f"Groq API key not found. Please set it in your Streamlit secrets or a local .env file. Error: {e}")
+        client = None
 
-    if GROQ_API_KEY == "your-api-key-here" or not GROQ_API_KEY.strip():
-        raise ValueError("Groq API key is missing. Please replace 'your-api-key-here' with your actual API key.")
-
-    client = OpenAI(
-        api_key=GROQ_API_KEY,
-        base_url="https://api.groq.com/openai/v1"
-    )
-
-except Exception as e:
-    print(f"❌ Initialization error: {e}")
-    exit(1)
 
 model_name = "llama3-8b-8192"
 
